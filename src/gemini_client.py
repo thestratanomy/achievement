@@ -28,7 +28,7 @@ def build_prompt(query: str, web_results: list[SearchResult], curated_facts: lis
 def stream_answer(prompt: str, api_key: str):
     """Yield text chunks from Gemini (streaming)."""
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash-lite")
     response = model.generate_content(prompt, stream=True)
     for chunk in response:
         if chunk.text:

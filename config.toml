@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://thestratanomy.github.io/achievement/"
 locale = "en-IN"
 title = "योगी सरकार की उपलब्धियां | UP Achievements"
 publishDir = "docs"

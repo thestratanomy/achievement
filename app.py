@@ -43,7 +43,10 @@ if prompt := st.chat_input("Ask about UP achievements… / यूपी की �
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    api_key = st.secrets.get("GEMINI_API_KEY", "")
+    try:
+        api_key = st.secrets.get("GEMINI_API_KEY", "")
+    except FileNotFoundError:
+        api_key = ""
     if not api_key:
         st.error("API key not configured. Contact the site admin.")
         st.stop()

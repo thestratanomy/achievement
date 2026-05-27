@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 from src.web_search import SearchResult
 
 _SYSTEM = (
@@ -26,10 +26,10 @@ def build_prompt(query: str, web_results: list[SearchResult], curated_facts: lis
 
 
 def stream_answer(prompt: str, api_key: str):
-    """Yield text chunks from Gemini (streaming)."""
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.0-flash-lite")
-    response = model.generate_content(prompt, stream=True)
-    for chunk in response:
+    client = genai.Client(api_key=api_key)
+    for chunk in client.models.generate_content_stream(
+        model="gemini-2.5-flash-lite",
+        contents=prompt,
+    ):
         if chunk.text:
             yield chunk.text

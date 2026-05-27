@@ -1,0 +1,31 @@
+{{ define "main" }}
+  <section class="hero">
+    <div class="container">
+      <h2>Celebrating Achievements</h2>
+      <p>Latest programs, impact metrics and stories from across India.</p>
+    </div>
+  </section>
+
+  {{ if .Content }}
+    <section class="container content">
+      {{ .Content }}
+    </section>
+  {{ end }}
+
+  <section class="impact container" aria-labelledby="impact-title">
+    <h3 id="impact-title">Impact at a glance</h3>
+    <ul class="counters">
+      <li><strong>1,00,00,000+</strong><span>Beneficiaries</span></li>
+      <li><strong>10,000+</strong><span>Projects</span></li>
+      <li><strong>500+</strong><span>Reports</span></li>
+    </ul>
+  </section>
+
+  <section class="reports container" aria-labelledby="reports-title">
+    <h3 id="reports-title">Featured reports</h3>
+    <ul>
+      <li><a href="#">Annual Impact Report 2025 (PDF)</a></li>
+      <li><a href="#">State-level success stories</a></li>
+    </ul>
+  </section>
+{{ end }}

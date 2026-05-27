@@ -18,15 +18,6 @@ with st.sidebar:
         help="Select categories to include in AI context",
     )
     st.markdown("---")
-    st.subheader("🔑 Gemini API Key")
-    sidebar_key = st.text_input(
-        "Paste your key here",
-        type="password",
-        help="Get a free key at aistudio.google.com",
-        placeholder="AIza...",
-    )
-    st.caption("[Get free key →](https://aistudio.google.com)")
-    st.markdown("---")
     st.caption("Live data from the web · Powered by Google Gemini")
 
 st.markdown(
@@ -52,9 +43,9 @@ if prompt := st.chat_input("Ask about UP achievements… / यूपी की �
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    api_key = st.secrets.get("GEMINI_API_KEY", "") or sidebar_key
+    api_key = st.secrets.get("GEMINI_API_KEY", "")
     if not api_key:
-        st.error("No API key found. Paste your Gemini key in the sidebar (get one free at aistudio.google.com).")
+        st.error("API key not configured. Contact the site admin.")
         st.stop()
 
     with st.spinner("Searching the web…"):

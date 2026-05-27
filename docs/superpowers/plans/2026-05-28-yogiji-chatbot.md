@@ -499,75 +499,116 @@ git commit -m "feat: add Streamlit chat UI with sidebar and sources expander"
 
 ---
 
-## Task 6: GitHub Pages landing page
+## Task 6: GitHub Pages landing page (adapted from static-site/)
+
+**Source:** `static-site/` already exists with correct structure (header, stats grid, cards, footer).
+Adapt it into `docs/`: swap green → saffron, replace cards section with iframe embed, update all copy.
 
 **Files:**
-- Create: `docs/style.css`
-- Modify: `docs/index.html` (already exists as placeholder from spec — replace fully)
+- Create: `docs/index.html` (adapted from `static-site/index.html`)
+- Create: `docs/style.css` (adapted from `static-site/css/style.css`)
 
-- [ ] **Step 1: Create docs/style.css**
+- [ ] **Step 1: Create docs/style.css — adapt static-site/css/style.css**
+
+Change `--brand` from `#063c2b` → saffron `#FF6B00`, `--accent` → `#FF9A3C`, `--bg` → `#FFF8F2`.
+Add `.embed-wrap` for the iframe. Keep all other rules unchanged.
 
 ```css
 /* ═══════════════════════════════════════
-   EDIT HERE — change colours & fonts
+   EDIT: change --brand and --accent for colour scheme
    ═══════════════════════════════════════ */
-:root {
-  --primary:  #FF6B00;
-  --dark:     #1A1A1A;
-  --light-bg: #FFF8F2;
-  --font:     'Segoe UI', sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); color: var(--dark); background: var(--light-bg); }
-
-.hero {
-  background: linear-gradient(135deg, var(--primary) 0%, #FF9A3C 100%);
-  color: #fff;
-  text-align: center;
-  padding: 60px 20px 40px;
-}
-.hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin-bottom: 10px; }
-.hero p  { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto 20px; }
-
-.embed-wrap { width: 100%; height: 85vh; min-height: 600px; border: none; }
-
-footer { text-align: center; padding: 16px; font-size: 0.85rem; color: #888; background: #fff; }
+:root{--brand:#FF6B00;--accent:#FF9A3C;--bg:#FFF8F2;--text:#0b1220}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;color:var(--text);background:var(--bg)}
+.wrap{max-width:1000px;margin:0 auto;padding:1.25rem}
+.skip{position:absolute;left:-9999px}
+.skip:focus{position:static;left:0;background:#fff;padding:.5rem;border:2px solid #000}
+.site-header{background:#fff;border-bottom:1px solid #e6e9ec}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between}
+.site-header nav a{margin-left:1rem;color:var(--brand);text-decoration:none}
+.logo{height:40px}
+.hero{padding:3rem 0;background:linear-gradient(135deg,var(--brand) 0%,var(--accent) 100%);color:#fff;text-align:center}
+.hero h1{margin:0;font-size:clamp(1.8rem,5vw,2.5rem)}
+.hero .lead{color:rgba(255,255,255,.9);max-width:600px;margin:.75rem auto 0}
+.stats .grid{display:flex;gap:1rem;list-style:none;padding:0;margin:1rem 0}
+.stats li{background:#fff;padding:1rem;border-radius:8px;flex:1;text-align:center}
+/* EDIT: replace src below with your Streamlit URL */
+.embed-wrap{width:100%;height:85vh;min-height:600px;border:none;display:block}
+.site-footer{background:#fff;border-top:1px solid #e6e9ec;padding:.75rem 0;margin-top:2rem;text-align:center;font-size:.85rem;color:#888}
 ```
 
-- [ ] **Step 2: Create docs/index.html**
+- [ ] **Step 2: Create docs/index.html — adapt static-site/index.html**
+
+Replace hero copy, remove cards section, add iframe embed in its place.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <!-- EDIT: page title -->
   <title>योगी सरकार की उपलब्धियां | UP Achievements</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <!-- EDIT: replace logo.svg with your logo file, or remove the img tag -->
+      <span style="font-weight:700;color:#FF6B00;font-size:1.1rem">🏛️ योगी UP</span>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#chat">Chat</a>
+      </nav>
+    </div>
+  </header>
 
-  <!-- EDIT: hero headline and description -->
-  <div class="hero">
-    <h1>🏛️ योगी सरकार की उपलब्धियां</h1>
-    <p>
-      Explore 10 years of Uttar Pradesh's transformation under CM Yogi Adityanath.
-      Ask anything — powered by live web search and Google Gemini AI.
-    </p>
-  </div>
+  <main id="main">
+    <!-- EDIT: hero headline and description -->
+    <section class="hero">
+      <div class="wrap">
+        <h1>योगी सरकार की उपलब्धियां</h1>
+        <p class="lead">10 years of Uttar Pradesh's transformation — ask anything, powered by live web search and Google Gemini AI.</p>
+      </div>
+    </section>
 
-  <!-- EDIT: replace src with your Streamlit Community Cloud URL -->
-  <iframe
-    class="embed-wrap"
-    src="https://YOUR-APP-NAME.streamlit.app/?embed=true"
-    allow="clipboard-write"
-    loading="lazy"
-  ></iframe>
+    <!-- EDIT: update numbers to match latest data -->
+    <section class="stats wrap" aria-labelledby="impact">
+      <h2 id="impact">Impact at a glance</h2>
+      <ul class="grid">
+        <li><strong>₹33.5L Cr</strong><span>Investment pledged (GIS 2023)</span></li>
+        <li><strong>5.5 Cr+</strong><span>Ayushman beneficiaries</span></li>
+        <li><strong>7</strong><span>Sectors covered</span></li>
+      </ul>
+    </section>
+
+    <!-- EDIT: replace src with your Streamlit Community Cloud URL -->
+    <section id="chat" class="wrap" aria-labelledby="chat-title">
+      <h2 id="chat-title" style="margin-bottom:.75rem">Ask the AI</h2>
+      <iframe
+        class="embed-wrap"
+        src="https://YOUR-APP-NAME.streamlit.app/?embed=true"
+        allow="clipboard-write"
+        loading="lazy"
+        title="UP Achievements Chatbot"
+      ></iframe>
+    </section>
+
+    <section id="about" class="wrap about" aria-labelledby="about-title" style="padding:2rem 0">
+      <!-- EDIT: about text -->
+      <h2 id="about-title">About this showcase</h2>
+      <p>This page covers key achievements of the Yogi Adityanath government in Uttar Pradesh from 2016 to 2026 across infrastructure, economy, industries, law &amp; order, health, education, and agriculture.</p>
+    </section>
+  </main>
 
   <!-- EDIT: footer text -->
-  <footer>Built with Streamlit · Hosted free on GitHub Pages &amp; Streamlit Community Cloud</footer>
-
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Built with Streamlit · Hosted free on GitHub Pages &amp; Streamlit Community Cloud</p>
+    </div>
+  </footer>
 </body>
 </html>
 ```
@@ -575,8 +616,8 @@ footer { text-align: center; padding: 16px; font-size: 0.85rem; color: #888; bac
 - [ ] **Step 3: Commit**
 
 ```bash
-git add docs/style.css docs/index.html
-git commit -m "feat: add GitHub Pages landing page with iframe embed"
+git add docs/index.html docs/style.css
+git commit -m "feat: add GitHub Pages landing page adapted from static-site template"
 ```
 
 ---

@@ -5,4 +5,4 @@ publishDir = "docs"
 
 [params]
   description = "10 years of Uttar Pradesh's transformation under CM Yogi Adityanath (2016–2026)"
-  streamlitURL = "https://YOUR-APP.streamlit.app/?embed=true"
+  streamlitURL = "https://achievement-4fgbh6pguqupoqpfddsnym.streamlit.app/?embed=true"

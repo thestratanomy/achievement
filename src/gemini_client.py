@@ -30,7 +30,7 @@ def stream_answer(prompt: str, api_key: str):
     client = genai.Client(api_key=api_key)
     try:
         for chunk in client.models.generate_content_stream(
-            model="gemini-2.5-flash-lite",
+            model="gemini-2.0-flash-lite",
             contents=prompt,
         ):
             if chunk.text:

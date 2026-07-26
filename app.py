@@ -51,8 +51,13 @@ if prompt := st.chat_input("Ask about UP achievements… / यूपी की �
         st.error("API key not configured. Contact the site admin.")
         st.stop()
 
+    try:
+        serper_key = st.secrets.get("SERP_API") or ""
+    except Exception:
+        serper_key = ""
+
     with st.spinner("Searching the web…"):
-        web_results = search_web(prompt)
+        web_results = search_web(prompt, api_key=serper_key)
         curated = get_facts(selected)
 
     full_prompt = build_prompt(prompt, web_results, curated)

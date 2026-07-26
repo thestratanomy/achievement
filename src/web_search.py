@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from duckduckgo_search import DDGS
+
+import requests
+
+_SERPER_URL = "https://google.serper.dev/search"
 
 
 @dataclass
@@ -9,15 +12,23 @@ class SearchResult:
     url: str
 
 
-def search_web(query: str, max_results: int = 3) -> list[SearchResult]:
-    """Search DuckDuckGo and return up to max_results results."""
+def search_web(query: str, api_key: str, max_results: int = 3) -> list[SearchResult]:
+    """Search via Serper.dev (Google results) and return up to max_results results."""
+    if not api_key:
+        return []
     full_query = f"Yogi Adityanath UP {query} 2016 2026"
     try:
-        with DDGS() as ddgs:
-            raw = ddgs.text(full_query, max_results=max_results + 1)
+        resp = requests.post(
+            _SERPER_URL,
+            headers={"X-API-KEY": api_key, "Content-Type": "application/json"},
+            json={"q": full_query, "num": max_results},
+            timeout=10,
+        )
+        resp.raise_for_status()
+        organic = resp.json().get("organic", [])
         return [
-            SearchResult(title=r["title"], snippet=r["body"], url=r["href"])
-            for r in (raw or [])
+            SearchResult(title=r["title"], snippet=r.get("snippet", ""), url=r["link"])
+            for r in organic
         ][:max_results]
-    except Exception:
+    except requests.RequestException:
         return []

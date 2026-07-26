@@ -1,4 +1,5 @@
 from google import genai
+from google.genai import errors as genai_errors
 from src.web_search import SearchResult
 
 _SYSTEM = (
@@ -27,9 +28,12 @@ def build_prompt(query: str, web_results: list[SearchResult], curated_facts: lis
 
 def stream_answer(prompt: str, api_key: str):
     client = genai.Client(api_key=api_key)
-    for chunk in client.models.generate_content_stream(
-        model="gemini-2.5-flash-lite",
-        contents=prompt,
-    ):
-        if chunk.text:
-            yield chunk.text
+    try:
+        for chunk in client.models.generate_content_stream(
+            model="gemini-2.5-flash-lite",
+            contents=prompt,
+        ):
+            if chunk.text:
+                yield chunk.text
+    except genai_errors.ClientError as e:
+        yield f"⚠️ Gemini API error: {e.message or e}"

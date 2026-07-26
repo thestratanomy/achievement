@@ -17,9 +17,8 @@ def test_build_prompt_includes_curated_facts():
 def test_stream_answer_yields_chunks(mocker):
     mock_chunk = mocker.MagicMock()
     mock_chunk.text = "Great progress"
-    mock_model = mocker.MagicMock()
-    mock_model.generate_content.return_value = [mock_chunk]
-    mocker.patch("src.gemini_client.genai.GenerativeModel", return_value=mock_model)
-    mocker.patch("src.gemini_client.genai.configure")
+    mock_client = mocker.MagicMock()
+    mock_client.models.generate_content_stream.return_value = [mock_chunk]
+    mocker.patch("src.gemini_client.genai.Client", return_value=mock_client)
     chunks = list(stream_answer("test prompt", api_key="fake-key"))
     assert chunks == ["Great progress"]
